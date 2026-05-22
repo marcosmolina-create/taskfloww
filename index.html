@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>TaskFlow — Organiza tu vida</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyApEeiq8muNkNtmYSyPVbzmRL8VDa0rFR0",
+    authDomain: "taskflow-dddd5.firebaseapp.com",
+    projectId: "taskflow-dddd5",
+    storageBucket: "taskflow-dddd5.firebasestorage.app",
+    messagingSenderId: "955431545221",
+    appId: "1:955431545221:web:2d5bb810a35972eb883cec"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
 <style>
 :root{
   --bg:#0a0a0f;--surface:#13131a;--card:#1c1c27;--border:#2a2a3d;
@@ -93,7 +107,7 @@ footer p{color:var(--muted);font-size:.88rem}
 .footer-links a:hover{color:var(--accent)}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(14px);z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:22px;padding-top:40px;opacity:0;pointer-events:none;transition:opacity .3s;overflow-y:auto}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(14px);z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:40px 22px;opacity:0;pointer-events:none;transition:opacity .3s;overflow-y:auto}
 .modal-overlay.active{opacity:1;pointer-events:all}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:44px;width:100%;max-width:430px;position:relative;transform:translateY(28px) scale(.96);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 40px 110px rgba(0,0,0,.55);max-height:90vh;overflow-y:auto}
 .modal-overlay.active .modal{transform:translateY(0) scale(1)}
@@ -144,7 +158,7 @@ footer p{color:var(--muted);font-size:.88rem}
 .sidebar-user-email{font-size:.75rem;color:var(--muted);margin-top:2px}
 
 /* MAIN CONTENT */
-.dash-main{flex:1;overflow-y:auto;padding:40px 52px;max-width:1400px}
+.dash-main{flex:1;overflow-y:auto;padding:40px 56px;max-width:1400px}
 .dash-panel{display:none}
 .dash-panel.active{display:block}
 .panel-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
@@ -152,7 +166,7 @@ footer p{color:var(--muted);font-size:.88rem}
 
 /* OVERVIEW */
 .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
-.ov-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden}
+.ov-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;position:relative;overflow:hidden}
 .ov-card::after{content:attr(data-icon);position:absolute;right:16px;top:14px;font-size:1.6rem;opacity:.35}
 .ov-label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .ov-value{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800}
@@ -289,8 +303,8 @@ footer p{color:var(--muted);font-size:.88rem}
     <button class="btn btn-ghost" onclick="openModal('login')">Iniciar sesión</button>
     <button class="btn btn-primary" onclick="openModal('register')">Empezar gratis →</button>
   </div>
-  <div class="nav-cta" id="nav-cta-user" style="display:none">
-    <span id="nav-user-name" style="color:var(--muted);font-size:.9rem"></span>
+  <div class="nav-cta" id="nav-cta-user" style="display:none;align-items:center;gap:12px">
+    <span id="nav-user-name" style="color:var(--muted);font-size:.9rem;font-weight:500"></span>
     <button class="btn btn-ghost" onclick="handleLogout()">Cerrar sesión</button>
   </div>
 </nav>
@@ -658,7 +672,27 @@ function handleRegister(){
   showToast('✅ ¡Cuenta creada!');
   setTimeout(()=>loginSuccess(user),700);
 }
-function handleSocial(p){ showToast(`🔗 Conectando con ${p}...`); setTimeout(()=>loginSuccess({name:'Usuario '+p,email:p.toLowerCase()+'@social.com'}),1100); }
+function handleSocial(p){
+  if(p === 'Google'){
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then(result => {
+        loginSuccess({ name: result.user.displayName, email: result.user.email });
+      })
+      .catch(err => {
+        console.error(err);
+        if(err.code === 'auth/popup-closed-by-user'){
+          showToast('⚠️ Cerraste la ventana de Google. Inténtalo de nuevo.');
+        } else if(err.code === 'auth/unauthorized-domain'){
+          showToast('⚠️ Dominio no autorizado en Firebase. Añádelo en Authentication → Dominios.');
+        } else {
+          showToast('❌ Error con Google: ' + err.message);
+        }
+      });
+  } else {
+    showToast(`🔗 Próximamente: login con ${p}`);
+  }
+}
 
 function loginSuccess(user){
   STATE.currentUser=user;
@@ -676,10 +710,10 @@ function loginSuccess(user){
   document.getElementById('new-task-date').value=todayStr();
   loadState();
   renderAll();
-  // Update nav
+  // Update nav — hide guest buttons, show user info
   document.getElementById('nav-cta-guest').style.display='none';
   document.getElementById('nav-cta-user').style.display='flex';
-  document.getElementById('nav-user-name').textContent=user.name.split(' ')[0];
+  document.getElementById('nav-user-name').textContent='Hola, '+user.name.split(' ')[0];
   document.getElementById('nav-link-entrar').style.display='none';
   // AI welcome
   addBotMessage('👋 ¡Hola, '+user.name.split(' ')[0]+'! Soy **Flow**, tu asistente de productividad. Estoy aquí para ayudarte a organizarte, superar la procrastinación y rendir al máximo. ¿En qué puedo ayudarte hoy?');
@@ -1029,6 +1063,14 @@ setInterval(()=>{ if(STATE.currentUser) saveState(); }, 2000);
 window.addEventListener('scroll',()=>{
   document.getElementById('navbar').style.background=
     window.scrollY>60?'rgba(10,10,15,.96)':'rgba(10,10,15,.75)';
+});
+
+// ─── FIREBASE AUTH STATE ─────────────────────────────────────────────────────
+// If user was already logged in with Google, restore session automatically
+firebase.auth().onAuthStateChanged(user => {
+  if(user && !STATE.currentUser){
+    loginSuccess({ name: user.displayName || user.email, email: user.email });
+  }
 });
 
 // ─── INIT CALENDAR ────────────────────────────────────────────────────────────
