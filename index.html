@@ -18,12 +18,13 @@
     appId: "1:955431545221:web:2d5bb810a35972eb883cec"
   };
   firebase.initializeApp(firebaseConfig);
+  // NOTE: Enable Email/Password in Firebase Console → Authentication → Sign-in methods
 </script>
 <style>
 :root{
   --bg:#0a0a0f;--surface:#13131a;--card:#1c1c27;--border:#2a2a3d;
-  --accent:#6c63ff;--accent2:#ff6584;--accent3:#43e97b;--accent4:#f6a623;
-  --text:#f0f0f8;--muted:#7a7a9a;--radius:16px;--radius-sm:10px;
+  --accent:#7c6fff;--accent2:#ff6584;--accent3:#43e97b;--accent4:#f6a623;
+  --text:#f0f0f8;--muted:#7a7a9a;--radius:20px;--radius-sm:12px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -40,7 +41,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.45rem;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
 .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:700}
 .nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.93rem;font-weight:500;transition:color .2s}
+.nav-links a{color:#9090b8;text-decoration:none;font-size:.93rem;font-weight:500;transition:color .2s;letter-spacing:.01em}
 .nav-links a:hover{color:var(--text)}
 .nav-cta{display:flex;gap:10px;align-items:center}
 
@@ -144,10 +145,10 @@ footer p{color:var(--muted);font-size:.88rem}
 .btn-social:hover{border-color:var(--accent);transform:translateY(-1px)}
 
 /* DASHBOARD */
-#dashboard{display:none;min-height:100vh;padding-top:74px;position:relative;z-index:1}
+#dashboard{display:none;min-height:100vh;padding-top:74px;position:relative;z-index:1;font-size:15px}
 .dash-layout{display:flex;height:calc(100vh - 74px)}
 /* SIDEBAR */
-.sidebar{width:260px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:32px 20px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}
+.sidebar{width:265px;flex-shrink:0;background:#0f0f18;border-right:1px solid var(--border);padding:32px 20px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}
 .sidebar-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:var(--radius-sm);cursor:pointer;color:var(--muted);font-size:.95rem;font-weight:500;transition:all .2s;border:none;background:none;width:100%;text-align:left}
 .sidebar-item:hover{background:var(--card);color:var(--text)}
 .sidebar-item.active{background:rgba(108,99,255,.15);color:var(--accent);border:1px solid rgba(108,99,255,.2)}
@@ -169,7 +170,7 @@ footer p{color:var(--muted);font-size:.88rem}
 .ov-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;position:relative;overflow:hidden}
 .ov-card::after{content:attr(data-icon);position:absolute;right:16px;top:14px;font-size:1.6rem;opacity:.35}
 .ov-label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.ov-value{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800}
+.ov-value{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800}
 .ov-change{font-size:.78rem;margin-top:4px}
 .positive{color:var(--accent3)}
 .negative{color:var(--accent2)}
@@ -182,7 +183,7 @@ footer p{color:var(--muted);font-size:.88rem}
 .filter-btn{padding:8px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:99px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
 .filter-btn.active,.filter-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(108,99,255,.08)}
 .tasks-list{display:flex;flex-direction:column;gap:10px}
-.task-item{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;animation:fadeUp .3s ease both}
+.task-item{display:flex;align-items:center;gap:14px;padding:18px 22px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;animation:fadeUp .3s ease both}
 .task-item:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(0,0,0,.2)}
 .task-item.done{opacity:.45}
 .task-item.done .task-text{text-decoration:line-through}
@@ -295,8 +296,8 @@ footer p{color:var(--muted);font-size:.88rem}
 <nav id="navbar">
   <a class="logo" href="#"><div class="logo-icon">✓</div>TaskFlow</a>
   <ul class="nav-links">
-    <li><a href="#features">Funciones</a></li>
-    <li><a href="#pricing">Precios</a></li>
+    <li><a href="#features" onclick="scrollToSection('features');return false">Funciones</a></li>
+    <li><a href="#pricing" onclick="scrollToSection('pricing');return false">Precios</a></li>
     <li id="nav-link-entrar"><a href="#" onclick="openModal('login');return false">Entrar</a></li>
   </ul>
   <div class="nav-cta" id="nav-cta-guest">
@@ -651,9 +652,21 @@ function handleLogin(){
   if(pass.length<6){showErr('login-pass-err',true);markInput('login-pass',true);ok=false;}
   else{showErr('login-pass-err',false);markInput('login-pass',false);}
   if(!ok) return;
-  const user=STATE.users.find(u=>u.email===email&&u.pass===pass);
-  if(!user){ showToast('❌ Email o contraseña incorrectos'); markInput('login-email',true); markInput('login-pass',true); return; }
-  loginSuccess(user);
+  const btn=document.querySelector('#form-login .btn-primary');
+  btn.textContent='Entrando...'; btn.disabled=true;
+  firebase.auth().signInWithEmailAndPassword(email, pass)
+    .then(result => {
+      loginSuccess({ name: result.user.displayName || result.user.email.split('@')[0], email: result.user.email });
+    })
+    .catch(err => {
+      btn.textContent='Entrar a TaskFlow →'; btn.disabled=false;
+      if(err.code==='auth/user-not-found'||err.code==='auth/wrong-password'||err.code==='auth/invalid-credential'){
+        showToast('❌ Email o contraseña incorrectos');
+        markInput('login-email',true); markInput('login-pass',true);
+      } else {
+        showToast('❌ Error: '+err.message);
+      }
+    });
 }
 function handleRegister(){
   const name=document.getElementById('reg-name').value.trim();
@@ -666,11 +679,27 @@ function handleRegister(){
   if(pass.length<6){showErr('reg-pass-err',true);markInput('reg-pass',true);ok=false;}else{showErr('reg-pass-err',false);markInput('reg-pass',false);}
   if(!terms){showToast('⚠️ Acepta los términos de uso');ok=false;}
   if(!ok) return;
-  if(STATE.users.find(u=>u.email===email)){showToast('⚠️ Ese email ya está registrado');markInput('reg-email',true);return;}
-  const user={email,pass,name};
-  STATE.users.push(user);
-  showToast('✅ ¡Cuenta creada!');
-  setTimeout(()=>loginSuccess(user),700);
+  const btn=document.querySelector('#form-register .btn-primary');
+  btn.textContent='Creando cuenta...'; btn.disabled=true;
+  firebase.auth().createUserWithEmailAndPassword(email, pass)
+    .then(result => {
+      return result.user.updateProfile({ displayName: name }).then(() => {
+        STATE.isNewUser = true;
+        loginSuccess({ name, email });
+      });
+    })
+    .catch(err => {
+      btn.textContent='Crear cuenta gratis →'; btn.disabled=false;
+      if(err.code==='auth/email-already-in-use'){
+        showToast('⚠️ Ese email ya está registrado');
+        markInput('reg-email',true);
+      } else if(err.code==='auth/weak-password'){
+        showToast('⚠️ La contraseña es demasiado débil');
+        markInput('reg-pass',true);
+      } else {
+        showToast('❌ Error: '+err.message);
+      }
+    });
 }
 function handleSocial(p){
   if(p === 'Google'){
@@ -710,11 +739,13 @@ function loginSuccess(user){
   document.getElementById('new-task-date').value=todayStr();
   loadState();
   renderAll();
-  // Update nav — hide guest buttons, show user info
+  // Update nav
   document.getElementById('nav-cta-guest').style.display='none';
   document.getElementById('nav-cta-user').style.display='flex';
   document.getElementById('nav-user-name').textContent='Hola, '+user.name.split(' ')[0];
   document.getElementById('nav-link-entrar').style.display='none';
+  // Show tutorial for new users
+  if(STATE.isNewUser){ STATE.isNewUser=false; setTimeout(showTutorial, 600); return; }
   // AI welcome
   addBotMessage('👋 ¡Hola, '+user.name.split(' ')[0]+'! Soy **Flow**, tu asistente de productividad. Estoy aquí para ayudarte a organizarte, superar la procrastinación y rendir al máximo. ¿En qué puedo ayudarte hoy?');
   showToast('👋 ¡Bienvenido/a, '+user.name.split(' ')[0]+'!');
@@ -752,7 +783,9 @@ function addTask(){
   const date=document.getElementById('new-task-date').value || todayStr();
   STATE.tasks.push({id:nextId++,text,done:false,tag,date});
   document.getElementById('new-task-text').value='';
+  saveState();
   renderAll();
+  renderCalendar();
   showToast('✅ Tarea añadida');
 }
 function toggleTask(id){
@@ -1060,6 +1093,17 @@ function loadState(){
 }
 setInterval(()=>{ if(STATE.currentUser) saveState(); }, 2000);
 
+function scrollToSection(id){
+  // If dashboard visible, hide it and show landing first
+  if(document.getElementById('dashboard').style.display !== 'none'){
+    handleLogout();
+    setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); },300);
+  } else {
+    const el=document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  }
+}
+
 window.addEventListener('scroll',()=>{
   document.getElementById('navbar').style.background=
     window.scrollY>60?'rgba(10,10,15,.96)':'rgba(10,10,15,.75)';
@@ -1073,8 +1117,92 @@ firebase.auth().onAuthStateChanged(user => {
   }
 });
 
+// ─── TUTORIAL ────────────────────────────────────────────────────────────────
+function showTutorial(){
+  document.getElementById('tut-task-date').value = todayStr();
+  document.getElementById('tutorial-overlay').style.display='flex';
+}
+function tutNext(step){
+  document.querySelectorAll('[id^="tut-step-"]').forEach(el=>el.style.display='none');
+  document.getElementById('tut-step-'+step).style.display='block';
+}
+function tutAddTask(){
+  const text=document.getElementById('tut-task-text').value.trim();
+  if(!text){ document.getElementById('tut-task-text').style.borderColor='var(--accent2)'; return; }
+  const tag=document.getElementById('tut-task-tag').value;
+  const date=document.getElementById('tut-task-date').value||todayStr();
+  STATE.tasks.push({id:nextId++,text,done:false,tag,date});
+  saveState();
+  renderAll();
+  if(STATE.calYear===new Date().getFullYear() && STATE.calMonth===new Date().getMonth()) renderCalendar();
+  tutNext(3);
+}
+function closeTutorial(){
+  document.getElementById('tutorial-overlay').style.display='none';
+  renderAll();
+  renderCalendar();
+}
+
 // ─── INIT CALENDAR ────────────────────────────────────────────────────────────
 renderCalendar();
 </script>
+
+<!-- TUTORIAL OVERLAY -->
+<div id="tutorial-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);z-index:800;align-items:center;justify-content:center;padding:24px">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:48px;max-width:520px;width:100%;position:relative;box-shadow:0 40px 120px rgba(0,0,0,.6)">
+    <!-- Steps -->
+    <div id="tut-step-1">
+      <div style="font-size:3rem;margin-bottom:16px;text-align:center">👋</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:10px">¡Bienvenido/a a TaskFlow!</h2>
+      <p style="color:var(--muted);text-align:center;line-height:1.7;margin-bottom:32px">Vamos a configurar tu espacio en 2 pasos rápidos. Te tomará menos de 1 minuto.</p>
+      <div style="display:flex;gap:10px;margin-bottom:24px">
+        <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">✅</div>
+          <div style="font-size:.85rem;font-weight:600">Crea tareas</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Organiza tu día</div>
+        </div>
+        <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">📅</div>
+          <div style="font-size:.85rem;font-weight:600">Usa el calendario</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Visualiza fechas</div>
+        </div>
+        <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">🤖</div>
+          <div style="font-size:.85rem;font-weight:600">Pregunta a Flow</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Tu IA personal</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-large btn-full" onclick="tutNext(2)">Comenzar →</button>
+    </div>
+
+    <div id="tut-step-2" style="display:none">
+      <div style="font-size:2.5rem;margin-bottom:16px;text-align:center">🎯</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;text-align:center;margin-bottom:8px">Añade tu primera tarea</h2>
+      <p style="color:var(--muted);text-align:center;line-height:1.7;margin-bottom:24px">¿Qué tienes pendiente hoy? Escribe algo concreto.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
+        <input type="text" id="tut-task-text" class="form-input" placeholder="Ej: Estudiar para el examen de Mates..."/>
+        <div style="display:flex;gap:10px">
+          <input type="date" id="tut-task-date" class="form-input" style="flex:1"/>
+          <select id="tut-task-tag" class="form-input" style="flex:1">
+            <option value="study">📚 Estudio</option>
+            <option value="work">💼 Trabajo</option>
+            <option value="health">💪 Salud</option>
+            <option value="personal">🌟 Personal</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-large btn-full" onclick="tutAddTask()" id="tut-add-btn">Añadir tarea →</button>
+      <button onclick="closeTutorial()" style="width:100%;margin-top:10px;padding:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem">Saltar por ahora</button>
+    </div>
+
+    <div id="tut-step-3" style="display:none">
+      <div style="font-size:3rem;margin-bottom:16px;text-align:center">🚀</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:10px">¡Todo listo!</h2>
+      <p style="color:var(--muted);text-align:center;line-height:1.7;margin-bottom:12px">Tu primera tarea está creada. Ya puedes verla en el <strong style="color:var(--text)">Calendario</strong> y en <strong style="color:var(--text)">Mis Tareas</strong>.</p>
+      <p style="color:var(--muted);text-align:center;font-size:.88rem;margin-bottom:32px">Tip: usa el <strong style="color:var(--accent)">Asistente IA</strong> si necesitas ayuda para organizarte 🤖</p>
+      <button class="btn btn-primary btn-large btn-full" onclick="closeTutorial()">Ir al dashboard →</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
