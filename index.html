@@ -757,7 +757,15 @@ function loginSuccess(user){
 }
 function handleLogout(){
   firebase.auth().signOut().catch(()=>{});
+  // Resetear STATE completamente para que otro usuario no vea datos anteriores
   STATE.currentUser=null;
+  STATE.tasks=[];
+  STATE.xp=0;
+  STATE.streak=0;
+  STATE.aiHistory=[];
+  STATE.taskFilter='all';
+  STATE.calSelected=null;
+  STATE.isNewUser=false;
   document.getElementById('dashboard').style.display='none';
   document.getElementById('landing').style.display='block';
   document.getElementById('nav-cta-guest').style.display='flex';
@@ -807,7 +815,7 @@ function addTask(){
   // Si hay un día seleccionado en el calendario, refrescarlo también
   if(STATE.calSelected){
     const selDate=new Date(STATE.calSelected+'T12:00:00');
-    selectCalDay(STATE.calSelected, selDate);
+    renderCalendarSelectedPanel(STATE.calSelected, selDate);
   }
   showToast('✅ Tarea añadida');
 }
@@ -818,6 +826,16 @@ function toggleTask(id){
   if(t.done){ STATE.xp+=10; showToast('🎉 +10 XP — ¡Tarea completada!'); }
   saveState();
   renderAll();
+  // Refrescar panel del día seleccionado en calendario si existe
+  if(STATE.calSelected){
+    const tasks=STATE.tasks.filter(t=>t.date===STATE.calSelected);
+    const selTasks=document.getElementById('cal-sel-tasks');
+    if(selTasks){
+      selTasks.innerHTML=tasks.length
+        ? tasks.map(t=>`<div class="task-item ${t.done?'done':''}" onclick="toggleTask(${t.id})"><div class="task-check"></div><span class="task-text">${escHtml(t.text)}</span><span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span></div>`).join('')
+        : '<p style="color:var(--muted);font-size:.9rem;padding:10px 0">Sin tareas este día.</p>';
+    }
+  }
 }
 function deleteTask(id){
   STATE.tasks=STATE.tasks.filter(t=>t.id!==id);
@@ -837,7 +855,9 @@ const TAG_LABEL={study:'📚 Estudio',work:'💼 Trabajo',health:'💪 Salud',pe
 
 function renderTasks(){
   const list=document.getElementById('tasks-list');
-  const q=(document.getElementById('task-search').value||'').toLowerCase();
+  if(!list) return;
+  const searchEl=document.getElementById('task-search');
+  const q=(searchEl?searchEl.value:'').toLowerCase();
   let tasks=STATE.tasks.filter(t=>{
     if(STATE.taskFilter==='pending' && t.done) return false;
     if(STATE.taskFilter==='done' && !t.done) return false;
@@ -871,8 +891,13 @@ function renderOverview(){
   document.getElementById('ov-xp').textContent=STATE.xp;
   document.getElementById('ov-pct').textContent=pct+'%';
   document.getElementById('ov-bar').style.width=pct+'%';
-  // Meta semanal: tareas completadas esta semana / objetivo 10
-  const weeklyDone=STATE.tasks.filter(t=>t.done).length;
+  // Meta semanal: tareas completadas esta semana (lunes a hoy) / objetivo 10
+  const nowW=new Date();
+  const dowW=(nowW.getDay()+6)%7; // 0=lunes
+  const weekKeys=Array.from({length:dowW+1},(_,i)=>{
+    const d=new Date(nowW); d.setDate(nowW.getDate()-dowW+i); return dateToKey(d);
+  });
+  const weeklyDone=STATE.tasks.filter(t=>t.done && weekKeys.includes(t.date)).length;
   const weeklyPct=Math.min(100,Math.round(weeklyDone/10*100));
   document.getElementById('ov-weekly-pct').textContent=weeklyPct+'%';
   document.getElementById('ov-weekly-bar').style.width=weeklyPct+'%';
@@ -921,24 +946,32 @@ function makeDayEl(date,otherMonth){
   el.className='cal-day'+(otherMonth?' other-month':'')+(key===todayKey?' today':'')+(key===selKey?' selected':'');
   el.innerHTML=`<div class="cal-day-num">${date.getDate()}</div>`+
     dayTasks.slice(0,3).map(t=>`<div class="cal-dot ${t.tag}"></div>`).join('');
+  el._dateKey=key;
   el.onclick=()=>selectCalDay(key,date);
   return el;
 }
 function selectCalDay(key,date){
   STATE.calSelected=key;
-  renderCalendar();
+  document.querySelectorAll('.cal-day').forEach(el=>{
+    if(el._dateKey===key) el.classList.add('selected');
+    else el.classList.remove('selected');
+  });
+  renderCalendarSelectedPanel(key,date);
+}
+function renderCalendarSelectedPanel(key,date){
   const tasks=STATE.tasks.filter(t=>t.date===key);
   const sel=document.getElementById('cal-selected');
   const selTitle=document.getElementById('cal-sel-title');
   const selTasks=document.getElementById('cal-sel-tasks');
-  selTitle.textContent='📋 Tareas para '+date.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+  if(!sel||!selTitle||!selTasks) return;
+  selTitle.textContent='\ud83d\udccb Tareas para '+date.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
   selTasks.innerHTML=tasks.length
-    ? tasks.map(t=>`<div class="task-item ${t.done?'done':''}" onclick="toggleTask(${t.id})"><div class="task-check"></div><span class="task-text">${escHtml(t.text)}</span><span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span></div>`).join('')
-    : '<p style="color:var(--muted);font-size:.9rem;padding:10px 0">Sin tareas este día. <a href="#" onclick="showPanel(\'tasks\',null);return false" style="color:var(--accent)">Añadir una →</a></p>';
+    ? tasks.map(t=>'<div class="task-item '+(t.done?'done':'')+'" onclick="toggleTask('+t.id+')"><div class="task-check"></div><span class="task-text">'+escHtml(t.text)+'</span><span class="task-tag '+TAG_CLASS[t.tag]+'">'+TAG_LABEL[t.tag]+'</span></div>').join('')
+    : '<p style="color:var(--muted);font-size:.9rem;padding:10px 0">Sin tareas este d\u00eda. <a href="#" onclick="showPanel(\'tasks\',null);return false" style="color:var(--accent)">A\u00f1adir una \u2192</a></p>';
   sel.style.display='block';
 }
 
-// ─── STATS ────────────────────────────────────────────────────────────────────
+
 function renderStats(){
   // Categories
   const cats=['study','work','health','personal'];
@@ -1023,13 +1056,23 @@ function addTypingIndicator(){
 function removeTypingIndicator(){ const t=document.getElementById('typing'); if(t) t.remove(); }
 
 function markdownToHtml(text){
-  return text
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/^- (.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs,'<ul>$1</ul>')
-    .replace(/\n\n/g,'</p><p>')
-    .replace(/^(.+)$/,'<p>$1</p>');
+  // Escapar HTML primero
+  let t = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Negrita e itálica
+  t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t = t.replace(/\*(.*?)\*/g,'<em>$1</em>');
+  // Listas
+  t = t.replace(/^- (.+)$/gm,'<li>$1</li>');
+  t = t.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
+  // Párrafos — split por líneas vacías
+  const paras = t.split(/\n{2,}/);
+  t = paras.map(p => {
+    p = p.trim();
+    if(!p) return '';
+    if(p.startsWith('<ul>')) return p;
+    return '<p>'+p.replace(/\n/g,'<br>')+'</p>';
+  }).filter(Boolean).join('');
+  return t;
 }
 
 function sendSuggestion(el){
@@ -1156,7 +1199,8 @@ window.addEventListener('scroll',()=>{
 // If user was already logged in with Google, restore session automatically
 firebase.auth().onAuthStateChanged(user => {
   if(user && !STATE.currentUser){
-    loginSuccess({ name: user.displayName || user.email, email: user.email });
+    // No tocar STATE.isNewUser aquí — puede venir de handleRegister
+    loginSuccess({ name: user.displayName || user.email.split('@')[0], email: user.email });
   }
 });
 
