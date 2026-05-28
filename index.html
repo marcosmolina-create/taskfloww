@@ -85,20 +85,68 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .feature-desc{color:var(--muted);font-size:.92rem;line-height:1.65}
 
 /* PRICING */
-#pricing{position:relative;z-index:1;padding:110px 24px;background:linear-gradient(180deg,transparent,rgba(108,99,255,.04),transparent)}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px;max-width:860px;margin:0 auto}
-.pricing-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:38px 34px;position:relative;transition:transform .3s}
-.pricing-card.popular{border-color:var(--accent);box-shadow:0 0 55px rgba(108,99,255,.18)}
-.pricing-card.popular::before{content:'⭐ MÁS POPULAR';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),#9b59b6);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:5px 16px;border-radius:99px;white-space:nowrap}
-.pricing-card:hover{transform:translateY(-4px)}
-.plan-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--muted)}
-.plan-price{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;margin-bottom:3px}
-.plan-price sup{font-size:1.1rem;vertical-align:super}
-.plan-price sub{font-size:.95rem;color:var(--muted)}
-.plan-desc{color:var(--muted);font-size:.88rem;margin-bottom:28px}
-.plan-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
-.plan-features li{display:flex;align-items:center;gap:10px;font-size:.92rem}
-.plan-features li::before{content:'✓';display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:rgba(67,233,123,.15);color:var(--accent3);border-radius:50%;font-size:.72rem;font-weight:700;flex-shrink:0}
+#pricing{position:relative;z-index:1;padding:110px 24px 130px}
+.pricing-eyebrow{text-align:center;margin-bottom:14px}
+.pricing-kicker{display:inline-flex;align-items:center;gap:8px;background:rgba(124,111,255,.12);border:1px solid rgba(124,111,255,.3);border-radius:99px;padding:7px 18px;font-size:.8rem;color:var(--accent);font-weight:600;letter-spacing:.04em}
+.pricing-kicker-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulseDot 1.8s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.pricing-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:20px;max-width:860px;margin:0 auto;align-items:start}
+@media(max-width:680px){.pricing-grid{grid-template-columns:1fr}}
+
+/* FREE card */
+.pricing-card{background:var(--card);border:1px solid var(--border);border-radius:26px;padding:38px 34px;position:relative;transition:transform .3s,box-shadow .3s}
+.pricing-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+
+/* PREMIUM card — glassmorphism with gradient border */
+.pricing-card.premium{
+  background:linear-gradient(160deg,rgba(124,111,255,.13) 0%,rgba(20,20,35,.95) 55%,rgba(255,101,132,.08) 100%);
+  border:1.5px solid transparent;
+  border-radius:26px;
+  background-clip:padding-box;
+  position:relative;
+  box-shadow:0 0 0 1.5px rgba(124,111,255,.45), 0 32px 80px rgba(108,99,255,.22), inset 0 1px 0 rgba(255,255,255,.07);
+  padding:44px 36px 40px;
+}
+.pricing-card.premium::after{
+  content:'';position:absolute;inset:-1px;border-radius:27px;
+  background:linear-gradient(135deg,rgba(124,111,255,.6),rgba(255,101,132,.4),rgba(67,233,123,.2));
+  z-index:-1;
+}
+.premium-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--accent),#c471ed);
+  color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.12em;
+  padding:6px 20px;border-radius:99px;white-space:nowrap;
+  box-shadow:0 4px 20px rgba(124,111,255,.5);
+  text-transform:uppercase;
+}
+
+.plan-name{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;color:var(--muted)}
+.plan-name.premium-name{color:var(--accent)}
+.plan-price{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;line-height:1;margin-bottom:4px}
+.plan-price sup{font-size:1.2rem;vertical-align:super;margin-right:2px}
+.plan-price sub{font-size:.9rem;color:var(--muted);font-weight:400}
+.plan-price.premium-price{background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.plan-saving{display:inline-flex;align-items:center;gap:6px;background:rgba(67,233,123,.15);color:var(--accent3);font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:99px;margin-bottom:18px}
+.plan-desc{color:var(--muted);font-size:.88rem;margin-bottom:26px;line-height:1.6}
+
+/* Feature rows */
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.plan-features li{display:flex;align-items:flex-start;gap:12px;font-size:.91rem;line-height:1.45}
+.plan-features li .feat-icon{flex-shrink:0;width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.78rem;margin-top:1px}
+.feat-icon.free-icon{background:rgba(255,255,255,.06);color:var(--muted)}
+.feat-icon.prem-icon{background:linear-gradient(135deg,rgba(124,111,255,.3),rgba(196,113,237,.2));color:#c084fc}
+.feat-icon.highlight-icon{background:linear-gradient(135deg,rgba(246,166,35,.25),rgba(255,101,132,.15));color:var(--accent4)}
+.feat-label{display:flex;flex-direction:column;gap:2px}
+.feat-sub{font-size:.76rem;color:var(--muted);font-weight:400}
+
+/* Divider line in premium features */
+.feat-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
+
+/* Social proof strip under cards */
+.pricing-proof{max-width:860px;margin:28px auto 0;display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.proof-item{display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--muted)}
+.proof-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);flex-shrink:0}
 
 /* FOOTER */
 footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:44px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:22px}
@@ -414,7 +462,7 @@ body.light-mode .blob{opacity:.06}
     <div class="hero-stats">
       <div class="stat"><div class="stat-num">🆓</div><div class="stat-label">Gratis para siempre</div></div>
       <div class="stat"><div class="stat-num">📱</div><div class="stat-label">Móvil y escritorio</div></div>
-      <div class="stat"><div class="stat-num">🤖</div><div class="stat-label">IA integrada</div></div>
+      <div class="stat"><div class="stat-num">🏆</div><div class="stat-label">Sistema de niveles</div></div>
     </div>
     <div class="scroll-hint">Descubre más</div>
   </section>
@@ -431,23 +479,57 @@ body.light-mode .blob{opacity:.06}
     </div>
   </section>
   <section id="pricing">
-    <p class="section-label">Planes</p>
-    <h2 class="section-title">Simple y transparente</h2>
+    <div class="pricing-eyebrow">
+      <span class="pricing-kicker"><span class="pricing-kicker-dot"></span>Planes y precios</span>
+    </div>
+    <h2 class="section-title">Empieza gratis.<br>Sube cuando estés listo.</h2>
+    <p style="text-align:center;color:var(--muted);font-size:.95rem;margin-top:-30px;margin-bottom:54px">Sin permanencia. Cancela cuando quieras.</p>
     <div class="pricing-grid">
+
+      <!-- FREE -->
       <div class="pricing-card">
-        <p class="plan-name">GRATIS</p>
+        <p class="plan-name">Plan Gratuito</p>
         <div class="plan-price"><sup>€</sup>0<sub>/mes</sub></div>
-        <p class="plan-desc">Para empezar sin compromiso</p>
-        <ul class="plan-features"><li>Hasta 20 tareas activas</li><li>Calendario básico</li><li>Asistente IA (10 consultas/día)</li><li>1 proyecto compartido</li><li>App móvil incluida</li></ul>
+        <p class="plan-desc">Para explorar TaskFlow y empezar a organizarte.</p>
+        <ul class="plan-features">
+          <li><span class="feat-icon free-icon">📋</span><div class="feat-label">Hasta 15 tareas activas</div></li>
+          <li><span class="feat-icon free-icon">📅</span><div class="feat-label">Calendario mensual básico</div></li>
+          <li><span class="feat-icon free-icon">📊</span><div class="feat-label">Estadísticas semanales</div></li>
+          <li><span class="feat-icon free-icon">⭐</span><div class="feat-label">Sistema XP y niveles <span class="feat-sub">Hasta nivel 10</span></div></li>
+          <li><span class="feat-icon free-icon">🎨</span><div class="feat-label">1 tema de color</div></li>
+        </ul>
         <button class="btn btn-ghost btn-full" onclick="openModal('register')">Empezar gratis</button>
       </div>
-      <div class="pricing-card popular">
-        <p class="plan-name">PREMIUM</p>
-        <div class="plan-price"><sup>€</sup>4<sub>,99/mes</sub></div>
-        <p class="plan-desc">Para los que van en serio</p>
-        <ul class="plan-features"><li>Tareas ilimitadas</li><li>Calendario avanzado</li><li>Asistente IA ilimitado</li><li>Proyectos ilimitados</li><li>Estadísticas detalladas</li><li>Sistema de recompensas completo</li><li>Sin anuncios</li></ul>
-        <button class="btn btn-primary btn-full" onclick="openModal('register')">Probar 30 días gratis →</button>
+
+      <!-- PREMIUM -->
+      <div class="pricing-card premium">
+        <div class="premium-badge">⚡ Más popular</div>
+        <p class="plan-name premium-name">Plan Premium</p>
+        <div class="plan-price premium-price"><sup>€</sup>4<sub>,99/mes</sub></div>
+        <div class="plan-saving">🎉 Prueba 30 días gratis — sin tarjeta</div>
+        <p class="plan-desc">Para estudiantes que van en serio con su productividad.</p>
+        <ul class="plan-features">
+          <li><span class="feat-icon prem-icon">♾️</span><div class="feat-label">Tareas ilimitadas <span class="feat-sub">Sin límite nunca</span></div></li>
+          <li><span class="feat-icon prem-icon">📅</span><div class="feat-label">Calendario avanzado con vista semanal</div></li>
+          <li><span class="feat-icon highlight-icon">🔥</span><div class="feat-label"><strong>Rachas y streaks protegidos</strong> <span class="feat-sub">Congela tu racha 1 vez/semana</span></div></li>
+          <li><span class="feat-icon highlight-icon">🏆</span><div class="feat-label"><strong>Nivel sin límite + logros exclusivos</strong> <span class="feat-sub">+50 logros desbloqueables</span></div></li>
+          <li><span class="feat-icon highlight-icon">🎨</span><div class="feat-label"><strong>Temas de color y fondos personalizados</strong> <span class="feat-sub">Rosa, verde, naranja, galaxy…</span></div></li>
+          <div class="feat-divider"></div>
+          <li><span class="feat-icon prem-icon">📊</span><div class="feat-label">Estadísticas detalladas con exportar a PDF</div></li>
+          <li><span class="feat-icon prem-icon">🔔</span><div class="feat-label">Recordatorios push en móvil</div></li>
+          <li><span class="feat-icon prem-icon">🚫</span><div class="feat-label">Sin anuncios nunca</div></li>
+          <li><span class="feat-icon highlight-icon">⚡</span><div class="feat-label"><strong>Acceso anticipado a nuevas funciones</strong> <span class="feat-sub">Tú decides el roadmap</span></div></li>
+        </ul>
+        <button class="btn btn-primary btn-large btn-full" style="background:linear-gradient(135deg,var(--accent),#c471ed);box-shadow:0 8px 32px rgba(124,111,255,.4);font-size:1rem" onclick="openModal('register')">Probar 30 días gratis →</button>
+        <p style="text-align:center;font-size:.76rem;color:var(--muted);margin-top:12px">Sin tarjeta de crédito · Cancela en 1 clic</p>
       </div>
+    </div>
+
+    <!-- Social proof strip -->
+    <div class="pricing-proof">
+      <span class="proof-item"><span class="proof-dot"></span>+2.400 estudiantes activos</span>
+      <span class="proof-item"><span class="proof-dot"></span>Valoración 4.8 ★ en reseñas</span>
+      <span class="proof-item"><span class="proof-dot"></span>Datos 100% en tu dispositivo</span>
     </div>
   </section>
   <!-- Footer sections (hidden, shown when link clicked) -->
