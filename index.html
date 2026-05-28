@@ -212,7 +212,9 @@ footer p{color:var(--muted);font-size:.88rem}
 .tag-work{background:rgba(255,101,132,.15);color:#ff8fa3}
 .tag-personal{background:rgba(246,166,35,.15);color:#f6a623}
 /* Botón eliminar — SIEMPRE visible como icono */
-.task-del{background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:1rem;padding:6px 8px;border-radius:10px;transition:all .2s;flex-shrink:0;line-height:1}
+.task-edit{background:none;border:none;color:rgba(255,255,255,.18);cursor:pointer;font-size:.9rem;padding:6px 8px;border-radius:10px;transition:all .2s;flex-shrink:0;line-height:1}
+.task-edit:hover{background:rgba(124,111,255,.2);color:var(--accent)}
+.task-del{background:none;border:none;color:rgba(255,255,255,.18);cursor:pointer;font-size:.9rem;padding:6px 8px;border-radius:10px;transition:all .2s;flex-shrink:0;line-height:1}
 .task-del:hover{background:rgba(255,101,132,.2);color:var(--accent2)}
 /* Formulario añadir tarea */
 .add-task-wrap{margin-top:20px;background:rgba(255,255,255,.03);border:1.5px dashed rgba(255,255,255,.1);border-radius:18px;padding:18px 20px;transition:border-color .2s}
@@ -263,37 +265,38 @@ footer p{color:var(--muted);font-size:.88rem}
 .achievement-name{font-size:.86rem;font-weight:600}
 .achievement-desc{font-size:.74rem;color:var(--muted);margin-top:2px}
 
-/* AI CHAT */
-.ai-chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 180px);max-height:700px}
-.ai-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:4px 0 16px;scroll-behavior:smooth}
-.ai-msg{display:flex;gap:12px;animation:fadeUp .3s ease both;max-width:90%}
-.ai-msg.user{align-self:flex-end;flex-direction:row-reverse}
-.ai-msg.user .msg-bubble{background:linear-gradient(135deg,var(--accent),#9b59b6);color:#fff;border-radius:18px 18px 4px 18px}
-.ai-msg.bot .msg-bubble{background:var(--card);border:1px solid var(--border);border-radius:18px 18px 18px 4px}
-.msg-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.bot-avatar{background:linear-gradient(135deg,var(--accent),var(--accent2))}
-.user-avatar{background:var(--card);border:1px solid var(--border)}
-.msg-bubble{padding:12px 16px;font-size:.9rem;line-height:1.6;max-width:520px}
-.msg-bubble p{margin-bottom:8px}
-.msg-bubble p:last-child{margin-bottom:0}
-.msg-bubble ul{padding-left:18px;margin:6px 0}
-.msg-bubble li{margin-bottom:4px}
-.msg-bubble strong{color:var(--accent);font-weight:600}
-.typing-indicator{display:flex;gap:5px;align-items:center;padding:14px 18px}
-.typing-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:typingBounce 1.2s ease infinite}
-.typing-dot:nth-child(2){animation-delay:.2s}
-.typing-dot:nth-child(3){animation-delay:.4s}
-@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}
-.ai-input-row{display:flex;gap:10px;padding-top:14px;border-top:1px solid var(--border)}
-.ai-input{flex:1;padding:13px 18px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;resize:none;transition:border-color .2s;max-height:120px;min-height:48px}
-.ai-input:focus{border-color:var(--accent)}
-.ai-input::placeholder{color:var(--muted)}
-.ai-send{width:48px;height:48px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--accent),#9b59b6);border:none;color:#fff;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
-.ai-send:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(108,99,255,.4)}
-.ai-send:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.ai-suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.ai-suggestion{padding:7px 14px;background:var(--card);border:1px solid var(--border);border-radius:99px;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .2s}
-.ai-suggestion:hover{border-color:var(--accent);color:var(--accent)}
+/* PROFILE MENU POPUP */
+.profile-menu{position:fixed;left:80px;bottom:20px;background:var(--surface);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:8px;min-width:200px;z-index:1000;box-shadow:0 20px 60px rgba(0,0,0,.5);display:none;flex-direction:column;gap:2px;animation:fadeUp .15s ease}
+.profile-menu.open{display:flex}
+.profile-menu-header{padding:12px 14px 10px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:4px}
+.profile-menu-name{font-weight:700;font-size:.9rem}
+.profile-menu-email{font-size:.75rem;color:var(--muted);margin-top:2px}
+.profile-menu-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;cursor:pointer;font-size:.88rem;color:var(--muted);transition:all .15s;background:none;border:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
+.profile-menu-item:hover{background:rgba(255,255,255,.07);color:var(--text)}
+.profile-menu-item.danger:hover{background:rgba(255,101,132,.12);color:var(--accent2)}
+.profile-menu-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
+
+/* SETTINGS MODAL */
+.settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);z-index:600;display:none;align-items:center;justify-content:center;padding:24px}
+.settings-overlay.open{display:flex}
+.settings-modal{background:var(--surface);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:36px;max-width:460px;width:100%;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.settings-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:24px}
+.settings-section{margin-bottom:24px}
+.settings-section-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;margin-bottom:8px}
+.settings-row:last-child{margin-bottom:0}
+.settings-row-label{font-size:.9rem;font-weight:500}
+.settings-row-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+/* Toggle switch */
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:99px;cursor:pointer;transition:background .2s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
+.toggle input:checked + .toggle-slider{background:var(--accent)}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px)}
+/* Light mode override */
+body.light-mode{--bg:#f5f5fa;--surface:#ffffff;--card:#f0f0f8;--border:#e0e0ee;--text:#1a1a2e;--muted:#8888aa}
+body.light-mode .blob{opacity:.06}
 
 /* TOAST */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 22px;font-size:.88rem;z-index:2000;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.35);display:flex;align-items:center;gap:9px}
@@ -323,7 +326,6 @@ footer p{color:var(--muted);font-size:.88rem}
   </div>
   <div class="nav-cta" id="nav-cta-user" style="display:none;align-items:center;gap:12px">
     <span id="nav-user-name" style="color:var(--muted);font-size:.9rem;font-weight:500"></span>
-    <button class="btn btn-ghost" onclick="handleLogout()">Cerrar sesión</button>
   </div>
 </nav>
 
@@ -521,14 +523,10 @@ footer p{color:var(--muted);font-size:.88rem}
         <span class="sidebar-icon">📊</span>
         <span class="sidebar-label">Stats</span>
       </button>
-      <div class="sidebar-sep"></div>
-      <button class="sidebar-item" onclick="showPanel('ai',this)" title="Asistente IA">
-        <span class="sidebar-icon">🤖</span>
-        <span class="sidebar-label">IA</span>
-      </button>
+
       <div class="sidebar-bottom">
         <div class="sidebar-sep"></div>
-        <div class="sidebar-avatar" id="sb-avatar" onclick="handleLogout()" title="Cerrar sesión">?</div>
+        <div class="sidebar-avatar" id="sb-avatar" onclick="toggleProfileMenu(event)" title="Perfil">?</div>
       </div>
     </aside>
 
@@ -664,25 +662,6 @@ footer p{color:var(--muted);font-size:.88rem}
         </div>
       </div>
 
-      <!-- AI CHAT -->
-      <div class="dash-panel" id="panel-ai">
-        <h1 class="panel-title">🤖 Asistente Flow</h1>
-        <p class="panel-sub">Tu asistente personal de productividad. Pregúntame cualquier cosa.</p>
-        <div class="ai-chat-wrap">
-          <div class="ai-messages" id="ai-messages"></div>
-          <div class="ai-suggestions" id="ai-suggestions">
-            <span class="ai-suggestion" onclick="sendSuggestion(this)">¿Cómo organizo mis tareas?</span>
-            <span class="ai-suggestion" onclick="sendSuggestion(this)">Técnica Pomodoro explicada</span>
-            <span class="ai-suggestion" onclick="sendSuggestion(this)">¿Cómo supero la procrastinación?</span>
-            <span class="ai-suggestion" onclick="sendSuggestion(this)">Consejos para estudiar mejor</span>
-          </div>
-          <div class="ai-input-row">
-            <textarea class="ai-input" id="ai-input" placeholder="Escríbeme algo..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIMessage()}" oninput="autoResize(this)"></textarea>
-            <button class="ai-send" id="ai-send-btn" onclick="sendAIMessage()">➤</button>
-          </div>
-        </div>
-      </div>
-
     </main>
   </div>
 </div>
@@ -692,14 +671,14 @@ footer p{color:var(--muted);font-size:.88rem}
 const STATE = {
   currentUser: null,
   isNewUser: false,
+  settings: { lightMode:false, animations:true, sounds:false },
   tasks: [],
   taskFilter: 'all',
   calYear: new Date().getFullYear(),
   calMonth: new Date().getMonth(),
   calSelected: null,
   xp: 0,
-  streak: 0,
-  aiHistory: []
+  streak: 0
 };
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
@@ -804,14 +783,21 @@ function handleSocial(p){
 function loginSuccess(user){
   STATE.currentUser=user;
   STATE.tasks=[];
-  STATE.aiHistory=[];
   closeModal();
   document.getElementById('landing').style.display='none';
   document.getElementById('dashboard').style.display='block';
   document.getElementById('user-name-display').textContent=user.name.split(' ')[0];
-  // Sidebar avatar — inicial del nombre
+  // Sidebar avatar y menú perfil
   const avatarEl=document.getElementById('sb-avatar');
   if(avatarEl) avatarEl.textContent=user.name.charAt(0).toUpperCase();
+  const pmName=document.getElementById('pm-name');
+  const pmEmail=document.getElementById('pm-email');
+  if(pmName) pmName.textContent=user.name;
+  if(pmEmail) pmEmail.textContent=user.email;
+  const suName=document.getElementById('settings-user-name');
+  const suEmail=document.getElementById('settings-user-email');
+  if(suName) suName.textContent=user.name;
+  if(suEmail) suEmail.textContent=user.email;
   document.getElementById('dash-date-sub').textContent=
     new Date().toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   // Set today's date in task form
@@ -827,8 +813,6 @@ function loginSuccess(user){
   document.getElementById('nav-link-pricing').style.display='none';
   // Show tutorial for new users
   if(STATE.isNewUser){ STATE.isNewUser=false; setTimeout(showTutorial, 600); return; }
-  // AI welcome
-  addBotMessage('👋 ¡Hola, '+user.name.split(' ')[0]+'! Soy **Flow**, tu asistente de productividad. Estoy aquí para ayudarte a organizarte, superar la procrastinación y rendir al máximo. ¿En qué puedo ayudarte hoy?');
   showToast('👋 ¡Bienvenido/a, '+user.name.split(' ')[0]+'!');
 }
 function handleLogout(){
@@ -838,7 +822,6 @@ function handleLogout(){
   STATE.tasks=[];
   STATE.xp=0;
   STATE.streak=0;
-  STATE.aiHistory=[];
   STATE.taskFilter='all';
   STATE.calSelected=null;
   STATE.isNewUser=false;
@@ -862,6 +845,19 @@ function showPanel(id,btn){
   if(id==='stats')    renderStats();
 }
 
+// ─── NIVEL Y XP ──────────────────────────────────────────────────────────────
+function getLevel(xp){
+  // Cada nivel requiere 50 XP más que el anterior: nivel 1=50, 2=150, 3=300...
+  let level=1, required=50;
+  while(xp>=required){ xp-=required; level++; required+=50; }
+  return level;
+}
+function getXpForNextLevel(totalXp){
+  let xp=totalXp, required=50;
+  while(xp>=required){ xp-=required; required+=50; }
+  return {current:xp, needed:required};
+}
+
 // ─── TASKS ────────────────────────────────────────────────────────────────────
 let nextId=10;
 function todayStr(){
@@ -883,7 +879,7 @@ function addTask(){
   if(!text){ showToast('⚠️ Escribe el nombre de la tarea'); return; }
   const tag=document.getElementById('new-task-tag').value;
   const date=document.getElementById('new-task-date').value || todayStr();
-  STATE.tasks.push({id:nextId++,text,done:false,tag,date});
+  STATE.tasks.push({id:nextId++,text,done:false,tag,date,xpClaimed:false});
   document.getElementById('new-task-text').value='';
   saveState();
   renderAll();
@@ -899,7 +895,17 @@ function toggleTask(id){
   const t=STATE.tasks.find(t=>t.id===id);
   if(!t) return;
   t.done=!t.done;
-  if(t.done){ STATE.xp+=10; showToast('🎉 +10 XP — ¡Tarea completada!'); }
+  if(t.done && !t.xpClaimed){
+    t.xpClaimed=true;
+    const xpGain=10;
+    STATE.xp+=xpGain;
+    const lvlBefore=getLevel(STATE.xp-xpGain);
+    const lvlAfter=getLevel(STATE.xp);
+    if(lvlAfter>lvlBefore) showToast('🎉 ¡NIVEL '+lvlAfter+'! +'+xpGain+' XP — ¡Has subido de nivel!');
+    else showToast('⭐ +'+xpGain+' XP — ¡Tarea completada!');
+  } else if(t.done && t.xpClaimed){
+    showToast('✅ Tarea marcada como completada');
+  }
   saveState();
   renderAll();
   // Refrescar panel del día seleccionado en calendario si existe
@@ -908,7 +914,7 @@ function toggleTask(id){
     const selTasks=document.getElementById('cal-sel-tasks');
     if(selTasks){
       selTasks.innerHTML=tasks.length
-        ? tasks.map(t=>`<div class="task-item ${t.done?'done':''}" onclick="toggleTask(${t.id})"><div class="task-check"></div><span class="task-text">${escHtml(t.text)}</span><span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span></div>`).join('')
+        ? tasks.map(t=>`<div class="task-item ${t.done?'done':''}" onclick="toggleTask(${t.id})"><div class="task-check"></div><span class="task-text">${escHtml(t.text)}</span><span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span><button class="task-edit" onclick="event.stopPropagation();editTask(${t.id})" title="Editar tarea">✏️</button><button class="task-del" onclick="event.stopPropagation();deleteTask(${t.id})" title="Eliminar tarea">🗑️</button></div>`).join('')
         : '<p style="color:var(--muted);font-size:.9rem;padding:10px 0">Sin tareas este día.</p>';
     }
   }
@@ -917,7 +923,33 @@ function deleteTask(id){
   STATE.tasks=STATE.tasks.filter(t=>t.id!==id);
   saveState();
   renderAll();
+  renderCalendar();
   showToast('🗑️ Tarea eliminada');
+}
+function editTask(id){
+  const t=STATE.tasks.find(t=>t.id===id);
+  if(!t) return;
+  document.getElementById('edit-task-id').value=id;
+  document.getElementById('edit-task-text').value=t.text;
+  document.getElementById('edit-task-date').value=t.date;
+  document.getElementById('edit-task-tag').value=t.tag;
+  document.getElementById('edit-modal').style.display='flex';
+}
+function saveEditTask(){
+  const id=parseInt(document.getElementById('edit-task-id').value);
+  const t=STATE.tasks.find(t=>t.id===id);
+  if(!t) return;
+  t.text=document.getElementById('edit-task-text').value.trim()||t.text;
+  t.date=document.getElementById('edit-task-date').value||t.date;
+  t.tag=document.getElementById('edit-task-tag').value;
+  closeEditModal();
+  saveState();
+  renderAll();
+  renderCalendar();
+  showToast('✏️ Tarea actualizada');
+}
+function closeEditModal(){
+  document.getElementById('edit-modal').style.display='none';
 }
 function setFilter(f,btn){
   STATE.taskFilter=f;
@@ -950,7 +982,7 @@ function renderTasks(){
       <span class="task-text" onclick="toggleTask(${t.id})">${escHtml(t.text)}</span>
       <span class="task-date">${t.date}</span>
       <span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span>
-      <button class="task-del" onclick="event.stopPropagation();deleteTask(${t.id})" title="Eliminar tarea">🗑️</button>
+      <button class="task-edit" onclick="event.stopPropagation();editTask(${t.id})" title="Editar tarea">✏️</button><button class="task-del" onclick="event.stopPropagation();deleteTask(${t.id})" title="Eliminar tarea">🗑️</button>
     </div>`).join('');
 }
 function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -964,7 +996,10 @@ function renderOverview(){
   document.getElementById('ov-done').textContent=done;
   document.getElementById('ov-pending').textContent=pending;
   document.getElementById('ov-streak').textContent=STATE.streak;
+  const lvl=getLevel(STATE.xp);
+  const xpProgress=getXpForNextLevel(STATE.xp);
   document.getElementById('ov-xp').textContent=STATE.xp;
+  document.getElementById('ov-xp-change').textContent='Nivel '+lvl+' · '+xpProgress.current+'/'+xpProgress.needed+' para subir';
   document.getElementById('ov-pct').textContent=pct+'%';
   document.getElementById('ov-bar').style.width=pct+'%';
   // Meta semanal: tareas completadas esta semana (lunes a hoy) / objetivo 10
@@ -979,7 +1014,7 @@ function renderOverview(){
   document.getElementById('ov-weekly-bar').style.width=weeklyPct+'%';
   const upcoming=STATE.tasks.filter(t=>!t.done).slice(0,4);
   document.getElementById('ov-upcoming').innerHTML=upcoming.length
-    ? upcoming.map(t=>`<div class="task-item"><div class="task-check" onclick="toggleTask(${t.id})"></div><span class="task-text" onclick="toggleTask(${t.id})">${escHtml(t.text)}</span><span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span><button class="task-del" onclick="deleteTask(${t.id})" title="Eliminar">🗑️</button></div>`).join('')
+    ? upcoming.map(t=>`<div class="task-item"><div class="task-check" onclick="toggleTask(${t.id})"></div><span class="task-text" onclick="toggleTask(${t.id})">${escHtml(t.text)}</span><span class="task-tag ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span><button class="task-edit" onclick="event.stopPropagation();editTask(${t.id})" title="Editar tarea">✏️</button><button class="task-del" onclick="event.stopPropagation();deleteTask(${t.id})" title="Eliminar">🗑️</button></div>`).join('')
     : '<p style="color:var(--muted);font-size:.9rem;padding:12px 0">🎉 ¡No hay tareas pendientes! Eres un crack.</p>';
 }
 
@@ -1042,7 +1077,7 @@ function renderCalendarSelectedPanel(key,date){
   if(!sel||!selTitle||!selTasks) return;
   selTitle.textContent='\ud83d\udccb Tareas para '+date.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
   selTasks.innerHTML=tasks.length
-    ? tasks.map(t=>'<div class="task-item '+(t.done?'done':'')+'" onclick="toggleTask('+t.id+')"><div class="task-check"></div><span class="task-text">'+escHtml(t.text)+'</span><span class="task-tag '+TAG_CLASS[t.tag]+'">'+TAG_LABEL[t.tag]+'</span></div>').join('')
+    ? tasks.map(t=>'<div class="task-item '+(t.done?'done':'')+'" onclick="toggleTask('+t.id+')"><div class="task-check"></div><span class="task-text">'+escHtml(t.text)+'</span><span class="task-tag '+TAG_CLASS[t.tag]+'">'+TAG_LABEL[t.tag]+'</span><button class="task-edit" onclick="event.stopPropagation();editTask('+t.id+')" title="Editar tarea">✏️</button><button class="task-del" onclick="event.stopPropagation();deleteTask('+t.id+')" title="Eliminar tarea">🗑️</button></div>').join('')
     : '<p style="color:var(--muted);font-size:.9rem;padding:10px 0">Sin tareas este d\u00eda. <a href="#" onclick="showPanel(\'tasks\',null);return false" style="color:var(--accent)">A\u00f1adir una \u2192</a></p>';
   sel.style.display='block';
 }
@@ -1103,124 +1138,6 @@ function renderStats(){
   }).join('');
 }
 
-// ─── AI CHAT ──────────────────────────────────────────────────────────────────
-function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
-
-function addBotMessage(text){
-  const msgs=document.getElementById('ai-messages');
-  const div=document.createElement('div');
-  div.className='ai-msg bot';
-  div.innerHTML=`<div class="msg-avatar bot-avatar">🤖</div><div class="msg-bubble">${markdownToHtml(text)}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
-}
-function addUserMessage(text){
-  const msgs=document.getElementById('ai-messages');
-  const div=document.createElement('div');
-  div.className='ai-msg user';
-  div.innerHTML=`<div class="msg-avatar user-avatar">👤</div><div class="msg-bubble">${escHtml(text)}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
-}
-function addTypingIndicator(){
-  const msgs=document.getElementById('ai-messages');
-  const div=document.createElement('div');
-  div.className='ai-msg bot'; div.id='typing';
-  div.innerHTML=`<div class="msg-avatar bot-avatar">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
-  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight;
-}
-function removeTypingIndicator(){ const t=document.getElementById('typing'); if(t) t.remove(); }
-
-function markdownToHtml(text){
-  // Escapar HTML primero
-  let t = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // Negrita e itálica
-  t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-  t = t.replace(/\*(.*?)\*/g,'<em>$1</em>');
-  // Listas
-  t = t.replace(/^- (.+)$/gm,'<li>$1</li>');
-  t = t.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
-  // Párrafos — split por líneas vacías
-  const paras = t.split(/\n{2,}/);
-  t = paras.map(p => {
-    p = p.trim();
-    if(!p) return '';
-    if(p.startsWith('<ul>')) return p;
-    return '<p>'+p.replace(/\n/g,'<br>')+'</p>';
-  }).filter(Boolean).join('');
-  return t;
-}
-
-function sendSuggestion(el){
-  const text=el.textContent;
-  document.getElementById('ai-suggestions').style.display='none';
-  sendAIMessageText(text);
-}
-
-async function sendAIMessage(){
-  const input=document.getElementById('ai-input');
-  const text=input.value.trim();
-  if(!text) return;
-  input.value=''; input.style.height='auto';
-  await sendAIMessageText(text);
-}
-
-async function sendAIMessageText(text){
-  addUserMessage(text);
-  document.getElementById('ai-send-btn').disabled=true;
-  addTypingIndicator();
-
-  // Build context about user's tasks
-  const taskSummary=STATE.tasks.length
-    ? 'Tareas del usuario: '+STATE.tasks.map(t=>`"${t.text}" (${t.tag}, ${t.done?'completada':'pendiente'}, fecha: ${t.date})`).join('; ')
-    : 'El usuario aún no tiene tareas.';
-
-  STATE.aiHistory.push({role:'user',content:text});
-
-  const apiKey = localStorage.getItem('tf_apikey') || '';
-  if(!apiKey){
-    removeTypingIndicator();
-    addBotMessage('🔑 Para usar el asistente IA necesitas una **API Key de Anthropic**. [Consíguela gratis en console.anthropic.com](https://console.anthropic.com)\n\nIntrodúcela aquí:');
-    setTimeout(()=>{
-      const k=prompt('Pega tu Anthropic API Key (empieza por sk-ant-...)');
-      if(k && k.startsWith('sk-')){ localStorage.setItem('tf_apikey',k); addBotMessage('✅ ¡API Key guardada! Ahora puedo responderte. Vuelve a escribir tu pregunta.'); }
-      else if(k){ addBotMessage('⚠️ Esa key no parece válida. Debe empezar por sk-ant-...'); }
-    },400);
-    document.getElementById('ai-send-btn').disabled=false;
-    return;
-  }
-  try {
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:`Eres Flow, el asistente de productividad integrado en TaskFlow, una app para jóvenes de 13-25 años. Tu personalidad es amigable, motivadora y directa. Usas algún emoji ocasionalmente pero sin exagerar. Ayudas con: organización de tareas, técnicas de productividad (Pomodoro, GTD, time-blocking), motivación, gestión del tiempo, estudio eficiente. Contexto actual del usuario: ${taskSummary}. Responde en español, de forma concisa y útil. Usa markdown básico (**negrita**, listas con -) cuando ayude a la claridad.`,
-        messages:STATE.aiHistory
-      })
-    });
-    if(!res.ok){
-      const err=await res.json().catch(()=>({}));
-      removeTypingIndicator();
-      if(res.status===401){ localStorage.removeItem('tf_apikey'); addBotMessage('❌ API Key inválida o expirada. Escribe otra vez para introducir una nueva.'); }
-      else { addBotMessage('⚠️ Error '+res.status+': '+(err.error?.message||'Inténtalo de nuevo.')); }
-      document.getElementById('ai-send-btn').disabled=false;
-      return;
-    }
-    const data=await res.json();
-    removeTypingIndicator();
-    const reply=data.content?.[0]?.text || 'Lo siento, no pude procesar tu mensaje.';
-    STATE.aiHistory.push({role:'assistant',content:reply});
-    addBotMessage(reply);
-  } catch(err){
-    removeTypingIndicator();
-    addBotMessage('⚠️ Error de red. Comprueba tu conexión e inténtalo de nuevo.');
-  }
-  document.getElementById('ai-send-btn').disabled=false;
-  document.getElementById('ai-messages').scrollTop=9999;
-}
-
 // ─── RENDER ALL ───────────────────────────────────────────────────────────────
 function renderAll(){ renderOverview(); renderTasks(); }
 
@@ -1260,6 +1177,49 @@ function loadState(){
 }
 setInterval(()=>{ if(STATE.currentUser) saveState(); }, 2000);
 
+// ─── PERFIL MENÚ ──────────────────────────────────────────────────────────────
+function toggleProfileMenu(e){
+  e.stopPropagation();
+  const menu=document.getElementById('profile-menu');
+  menu.classList.toggle('open');
+}
+document.addEventListener('click',()=>{
+  const menu=document.getElementById('profile-menu');
+  if(menu) menu.classList.remove('open');
+});
+
+// ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
+function openSettings(){
+  document.getElementById('profile-menu').classList.remove('open');
+  document.getElementById('settings-overlay').classList.add('open');
+  // Sync toggles with current state
+  document.getElementById('toggle-lightmode').checked = document.body.classList.contains('light-mode');
+  document.getElementById('toggle-animations').checked = STATE.settings.animations;
+  document.getElementById('toggle-sounds').checked = STATE.settings.sounds;
+}
+function closeSettings(){
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+function applySetting(key, value){
+  STATE.settings[key]=value;
+  if(key==='lightMode'){
+    document.body.classList.toggle('light-mode', value);
+    localStorage.setItem('tf_lightmode', value?'1':'0');
+  }
+  if(key==='animations'){
+    localStorage.setItem('tf_animations', value?'1':'0');
+  }
+}
+// Cargar preferencias al inicio
+(function loadPrefs(){
+  if(localStorage.getItem('tf_lightmode')==='1') document.body.classList.add('light-mode');
+  STATE.settings={
+    lightMode: localStorage.getItem('tf_lightmode')==='1',
+    animations: localStorage.getItem('tf_animations')!=='0',
+    sounds: false
+  };
+})();
+
 function scrollToSection(id){
   // Solo funciona desde la landing — si estás en dashboard estos links no se muestran
   const el=document.getElementById(id);
@@ -1294,7 +1254,7 @@ function tutAddTask(){
   if(!text){ document.getElementById('tut-task-text').style.borderColor='var(--accent2)'; return; }
   const tag=document.getElementById('tut-task-tag').value;
   const date=document.getElementById('tut-task-date').value||todayStr();
-  STATE.tasks.push({id:nextId++,text,done:false,tag,date});
+  STATE.tasks.push({id:nextId++,text,done:false,tag,date,xpClaimed:false});
   saveState();
   renderAll();
   if(STATE.calYear===new Date().getFullYear() && STATE.calMonth===new Date().getMonth()) renderCalendar();
@@ -1309,6 +1269,81 @@ function closeTutorial(){
 // ─── INIT CALENDAR ────────────────────────────────────────────────────────────
 renderCalendar();
 </script>
+
+<!-- PROFILE MENU POPUP -->
+<div class="profile-menu" id="profile-menu">
+  <div class="profile-menu-header">
+    <div class="profile-menu-name" id="pm-name">Usuario</div>
+    <div class="profile-menu-email" id="pm-email">email@example.com</div>
+  </div>
+  <button class="profile-menu-item" onclick="openSettings()">⚙️ &nbsp;Configuración</button>
+  <div class="profile-menu-sep"></div>
+  <button class="profile-menu-item danger" onclick="document.getElementById('profile-menu').classList.remove('open');handleLogout()">🚪 &nbsp;Cerrar sesión</button>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="settings-overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-modal">
+    <button onclick="closeSettings()" style="position:absolute;top:18px;right:18px;background:rgba(255,255,255,.07);border:none;color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">✕</button>
+    <h2 class="settings-title">⚙️ Configuración</h2>
+    <div class="settings-section">
+      <div class="settings-section-title">Apariencia</div>
+      <div class="settings-row">
+        <div><div class="settings-row-label">☀️ Modo claro</div><div class="settings-row-sub">Cambia entre modo oscuro y claro</div></div>
+        <label class="toggle"><input type="checkbox" id="toggle-lightmode" onchange="applySetting('lightMode',this.checked)"/><span class="toggle-slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <div><div class="settings-row-label">✨ Animaciones</div><div class="settings-row-sub">Efectos visuales en la interfaz</div></div>
+        <label class="toggle"><input type="checkbox" id="toggle-animations" checked onchange="applySetting('animations',this.checked)"/><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Cuenta</div>
+      <div class="settings-row">
+        <div><div class="settings-row-label" id="settings-user-name">Nombre</div><div class="settings-row-sub" id="settings-user-email">Email</div></div>
+        <span style="font-size:.75rem;background:rgba(124,111,255,.2);color:var(--accent);padding:4px 12px;border-radius:99px;font-weight:600">Plan Gratis</span>
+      </div>
+    </div>
+    <div class="settings-section" style="margin-bottom:0">
+      <div class="settings-section-title">Datos</div>
+      <div class="settings-row" style="cursor:pointer" onclick="if(confirm('¿Eliminar todos tus datos? Esta acción no se puede deshacer.')){localStorage.clear();handleLogout();}">
+        <div><div class="settings-row-label" style="color:var(--accent2)">🗑️ Borrar todos mis datos</div><div class="settings-row-sub">Elimina tareas y preferencias guardadas</div></div>
+        <span style="color:var(--accent2);font-size:1.1rem">›</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT TASK MODAL -->
+<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);z-index:600;align-items:center;justify-content:center;padding:24px" onclick="if(event.target===this)closeEditModal()">
+  <div style="background:var(--surface);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:36px;max-width:440px;width:100%;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.5)">
+    <button onclick="closeEditModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.07);border:none;color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem">✕</button>
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:22px">✏️ Editar tarea</h2>
+    <input type="hidden" id="edit-task-id"/>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <label style="font-size:.8rem;color:var(--muted);display:block;margin-bottom:6px">Nombre de la tarea</label>
+        <input type="text" id="edit-task-text" class="form-input" placeholder="Nombre de la tarea..."/>
+      </div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1">
+          <label style="font-size:.8rem;color:var(--muted);display:block;margin-bottom:6px">Fecha</label>
+          <input type="date" id="edit-task-date" class="form-input"/>
+        </div>
+        <div style="flex:1">
+          <label style="font-size:.8rem;color:var(--muted);display:block;margin-bottom:6px">Categoría</label>
+          <select id="edit-task-tag" class="form-input">
+            <option value="study">📚 Estudio</option>
+            <option value="work">💼 Trabajo</option>
+            <option value="health">💪 Salud</option>
+            <option value="personal">🌟 Personal</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-large btn-full" style="margin-top:8px" onclick="saveEditTask()">Guardar cambios →</button>
+    </div>
+  </div>
+</div>
 
 <!-- TUTORIAL OVERLAY -->
 <div id="tutorial-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);z-index:800;align-items:center;justify-content:center;padding:24px">
@@ -1330,9 +1365,9 @@ renderCalendar();
           <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Visualiza fechas</div>
         </div>
         <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
-          <div style="font-size:1.6rem;margin-bottom:8px">🤖</div>
-          <div style="font-size:.85rem;font-weight:600">Pregunta a Flow</div>
-          <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Tu IA personal</div>
+          <div style="font-size:1.6rem;margin-bottom:8px">⭐</div>
+          <div style="font-size:.85rem;font-weight:600">Gana XP</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:4px">Sube de nivel</div>
         </div>
       </div>
       <button class="btn btn-primary btn-large btn-full" onclick="tutNext(2)">Comenzar →</button>
@@ -1362,7 +1397,7 @@ renderCalendar();
       <div style="font-size:3rem;margin-bottom:16px;text-align:center">🚀</div>
       <h2 style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:10px">¡Todo listo!</h2>
       <p style="color:var(--muted);text-align:center;line-height:1.7;margin-bottom:12px">Tu primera tarea está creada. Ya puedes verla en el <strong style="color:var(--text)">Calendario</strong> y en <strong style="color:var(--text)">Mis Tareas</strong>.</p>
-      <p style="color:var(--muted);text-align:center;font-size:.88rem;margin-bottom:32px">Tip: usa el <strong style="color:var(--accent)">Asistente IA</strong> si necesitas ayuda para organizarte 🤖</p>
+      <p style="color:var(--muted);text-align:center;font-size:.88rem;margin-bottom:32px">Tip: completa tareas para ganar <strong style="color:var(--accent)">XP y subir de nivel</strong> 🚀</p>
       <button class="btn btn-primary btn-large btn-full" onclick="closeTutorial()">Ir al dashboard →</button>
     </div>
   </div>
